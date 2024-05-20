@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // Prisma가 사용할 데이터베이스 엔진의 유형
+  provider = "mysql"
+  // 데이터베이스를 연결하기 위한 URL --> .env 파일의 DATABASE_URL 로부터 읽어옵니다.
+  url      = env("DATABASE_URL")
+}
+
+model Products {
+  productId   Int     @id @default(autoincrement()) @map("productId")
+  productName String  @unique @map("productName")
+  price       Int     @default(1000) @map("price")
+  info        String? @map("info") @db.Text
+
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  @@map("Products")
+}
+
+model Posts {
+  postId      Int      @id @default(autoincrement()) @map("postId")
+  title       String   @map("title")
+  content     String   @db.Text @map("content")
+  password    String   @map("password")
+  createdAt   DateTime @default(now()) @map("createdAt")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updatedAt")
+
+  @@map("Posts")
+}
